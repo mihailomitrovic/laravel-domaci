@@ -1,10 +1,12 @@
 <?php
 
+use App\Http\Controllers\API\AuthController;
 use App\Http\Controllers\DirectorController;
 use App\Http\Controllers\DirectorFilmController;
 use App\Http\Controllers\FilmController;
 use App\Http\Controllers\GenreFilmController;
 use App\Http\Controllers\UserController;
+use App\Models\Director;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -25,10 +27,26 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/users',[UserController::class,'index']);
 
-Route::resource('films', FilmController::class);
+Route::resource('films', FilmController::class)->only(['index']);
 
-Route::resource('directors', DirectorController::class);
+Route::resource('directors', DirectorController::class)->only(['index']);
 
 Route::resource('directors.films', DirectorFilmController::class)->only(['index']);
 
 Route::resource('genres.films', GenreFilmController::class)->only(['index']);
+
+Route::post('/register', [AuthController::class, 'register']);
+
+Route::post('/login', [AuthController::class, 'login']);
+
+Route::group(['middleware' => ['auth:sanctum']], function() {
+    Route::get('/profile', function(Request $request) {
+        return auth()->user();
+    });
+
+    Route::resource('films', FilmController::class)->only(['update', 'store', 'destroy']);
+
+    Route::resource('directors', Director::class)->only(['update', 'store', 'destroy']);
+
+    Route::post('/logout',[AuthController::class, 'logout']);
+});

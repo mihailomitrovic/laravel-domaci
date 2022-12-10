@@ -34,7 +34,7 @@ class FilmController extends Controller
             'slug' => 'required|string|max:50',
             'year' => 'required|string|max:4',
             'tagline' => 'required|string|max:50',
-            'synospsis' => 'required|string|max:200',
+            'synopsis' => 'required|string|max:200',
             'genre' => 'required',
             'director' => 'required'
         ]);
@@ -47,7 +47,7 @@ class FilmController extends Controller
             'slug' => $request->slug,
             'year' => $request->year,
             'tagline' => $request->tagline,
-            'synopsis' => $request->body,
+            'synopsis' => $request->synopsis,
             'genre' => $request->genre,
             'director' => $request->director,
             'user' => Auth::user()->id
@@ -64,7 +64,31 @@ class FilmController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validator = Validator::make($request->all(),[
+            'title' => 'required|string|max:50',
+            'slug' => 'required|string|max:50',
+            'year' => 'required|string|max:4',
+            'tagline' => 'required|string|max:50',
+            'synopsis' => 'required|string|max:200',
+            'genre' => 'required',
+            'director' => 'required'
+        ]);
+
+        if($validator -> fails())
+            return response()->json($validator->errors());
+            
+        $film = Film::create([
+            'title' => $request->title,
+            'slug' => $request->slug,
+            'year' => $request->year,
+            'tagline' => $request->tagline,
+            'synopsis' => $request->synopsis,
+            'genre' => $request->genre,
+            'director' => $request->director,
+            'user' => Auth::user()->id
+        ]);
+
+        return response()->json(['The film has been added successfully.', new FilmResource($film)]);
     }
 
     /**
@@ -103,7 +127,7 @@ class FilmController extends Controller
             'slug' => 'required|string|max:50',
             'year' => 'required|string|max:4',
             'tagline' => 'required|string|max:50',
-            'synospsis' => 'required|string|max:200',
+            'synopsis' => 'required|string|max:200',
             'genre' => 'required',
             'director' => 'required'
         ]);
