@@ -3,6 +3,11 @@
 namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+
+use App\Models\Director;
+use App\Models\Film;
+use App\Models\Genre;
+use App\Models\User;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -14,11 +19,36 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        // \App\Models\User::factory(10)->create();
+        Film::truncate();
+        Genre::truncate();
+        Director::truncate();
+        User::truncate();
 
-        // \App\Models\User::factory()->create([
-        //     'name' => 'Test User',
-        //     'email' => 'test@example.com',
-        // ]);
+        $user = User::factory()->create();
+
+        $genre1 = Genre::factory()->create();
+        $genre2 = Genre::factory()->create();
+        $genre3 = Genre::factory()->create();
+        
+        $director1 = Director::factory()->create();
+        $director2 = Director::factory()->create();
+
+        Film::factory(2)->create([
+            'genre' => $genre1->id,
+            'director' => $director1->id,
+            'user' => $user->id
+        ]);
+
+        Film::factory(2)->create([
+            'genre' => $genre3->id,
+            'director' => $director1->id,
+            'user' => $user->id
+        ]);
+
+        Film::factory(2)->create([
+            'genre' => $genre2->id,
+            'director' => $director2->id,
+            'user' => $user->id
+        ]);
     }
 }
