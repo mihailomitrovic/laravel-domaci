@@ -1,7 +1,9 @@
 <?php
 
 use App\Http\Controllers\DirectorController;
+use App\Http\Controllers\DirectorFilmController;
 use App\Http\Controllers\FilmController;
+use App\Http\Controllers\GenreFilmController;
 use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -26,3 +28,7 @@ Route::get('/users',[UserController::class,'index']);
 Route::resource('films', FilmController::class);
 
 Route::resource('directors', DirectorController::class);
+
+Route::resource('directors.films', DirectorFilmController::class)->only(['index']);
+
+Route::resource('genres.films', GenreFilmController::class)->only(['index']);
