@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\UserCollection;
+use App\Http\Resources\UserResource;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -14,8 +16,8 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = User::all();
-        return $users;
+        $directors = User::all();
+        return new UserCollection($directors);
     }
 
     /**
@@ -47,10 +49,7 @@ class UserController extends Controller
      */
     public function show($user_id)
     {
-        $user = User::find($user_id);
-        if(is_null($user))
-            return response()->json('Data not found', 404);
-        return response()->json($user);
+        return new UserResource($user_id);
     }
 
     /**

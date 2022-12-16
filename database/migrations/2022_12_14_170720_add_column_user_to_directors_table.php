@@ -13,12 +13,8 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('directors', function (Blueprint $table) {
-            $table->id();
-            $table->string('first_name');
-            $table->string('last_name');
-            $table->string('slug')->unique();
-            $table->timestamps();
+        Schema::table('directors', function (Blueprint $table) {
+            $table->foreignId('user');
         });
     }
 
@@ -29,6 +25,8 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('directors');
+        Schema::table('directors', function (Blueprint $table) {
+            $table->dropForeign('user');
+        });
     }
 };

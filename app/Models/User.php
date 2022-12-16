@@ -44,11 +44,11 @@ class User extends Authenticatable
 
     public function films()
     {
-        return $this->hasMany(Film::class);
+        return $this->hasMany(Film::class, 'user');
     }
 
     public function directors()
     {
-        return $this->hasMany(Director::class);
+        return $this->hasMany(Director::class, 'user');
     }
 }

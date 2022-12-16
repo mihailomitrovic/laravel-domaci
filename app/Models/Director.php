@@ -8,9 +8,10 @@ use Illuminate\Database\Eloquent\Model;
 class Director extends Model
 {
     use HasFactory;
+    protected $guarded = [];
 
     public function films()
     {
-        return $this->hasMany(Film::class);
+        return $this->hasMany(Film::class, 'director');
     }
 }

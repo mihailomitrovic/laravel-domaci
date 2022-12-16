@@ -4,6 +4,7 @@ use App\Http\Controllers\API\AuthController;
 use App\Http\Controllers\DirectorController;
 use App\Http\Controllers\DirectorFilmController;
 use App\Http\Controllers\FilmController;
+use App\Http\Controllers\GenreController;
 use App\Http\Controllers\GenreFilmController;
 use App\Http\Controllers\UserController;
 use App\Models\Director;
@@ -27,13 +28,15 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/users',[UserController::class,'index']);
 
-Route::resource('films', FilmController::class)->only(['index']);
+Route::resource('films', FilmController::class)->only(['index', 'show']);
 
-Route::resource('directors', DirectorController::class)->only(['index']);
+Route::resource('directors', DirectorController::class)->only(['index', 'show']);
 
-Route::resource('directors.films', DirectorFilmController::class)->only(['index']);
+Route::get('genres', [GenreController::class, 'index']);
 
-Route::resource('genres.films', GenreFilmController::class)->only(['index']);
+Route::resource('directors.films', DirectorFilmController::class)->only(['index', 'show']);
+
+Route::resource('genres.films', GenreFilmController::class)->only(['index', 'show']);
 
 Route::post('/register', [AuthController::class, 'register']);
 
@@ -46,7 +49,7 @@ Route::group(['middleware' => ['auth:sanctum']], function() {
 
     Route::resource('films', FilmController::class)->only(['update', 'store', 'destroy']);
 
-    Route::resource('directors', Director::class)->only(['update', 'store', 'destroy']);
+    Route::resource('directors', DirectorController::class)->only(['update', 'store', 'destroy']);
 
     Route::post('/logout',[AuthController::class, 'logout']);
 });

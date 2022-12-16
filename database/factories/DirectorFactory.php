@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -19,7 +20,8 @@ class DirectorFactory extends Factory
         return [
             'first_name' => $this->faker->word(),
             'last_name' => $this->faker->word(),
-            'slug' => $this->faker->slug()
+            'slug' => $this->faker->slug(),
+            'user' => User::factory()
         ];
     }
 }

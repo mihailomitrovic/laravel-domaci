@@ -42,6 +42,7 @@ class DirectorController extends Controller
             'first_name' => $request->first_name,
             'last_name' => $request->last_name,
             'slug' => $request->slug,
+            'user' => Auth::user()->id
         ]);
 
         return response()->json(['The director has been added successfully.', new DirectorResource($director)]);
@@ -55,7 +56,23 @@ class DirectorController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validator = Validator::make($request->all(),[
+            'first_name' => 'required|string|max:50',
+            'last_name' => 'required|string|max:50',
+            'slug' => 'required|string|max:50'
+        ]);
+
+        if($validator -> fails())
+            return response()->json($validator->errors());
+            
+        $director = Director::create([
+            'first_name' => $request->first_name,
+            'last_name' => $request->last_name,
+            'slug' => $request->slug,
+            'user' => Auth::user()->id
+        ]);
+
+        return response()->json(['The director has been added successfully.', new DirectorResource($director)]);
     }
 
     /**

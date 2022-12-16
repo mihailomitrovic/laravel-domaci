@@ -2,10 +2,9 @@
 
 namespace App\Http\Resources;
 
-use App\Models\Director;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class DirectorResource extends JsonResource
+class GenreResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -14,16 +13,14 @@ class DirectorResource extends JsonResource
      * @return array|\Illuminate\Contracts\Support\Arrayable|\JsonSerializable
      */
 
-    public static $wrap = 'director';
+    public static $wrap = 'genre';
 
     public function toArray($request)
     {
         // return parent::toArray($request);
         return [
             'id' => $this->resource->id,
-            'first_name' => $this->resource->first_name,
-            'last_name' => $this->resource->last_name,
-            'user' => $this->resource->user
+            'name' => $this->resource->name,
         ];
     }
 }

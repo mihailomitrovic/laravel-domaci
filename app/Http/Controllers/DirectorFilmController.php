@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\FilmCollection;
 use App\Models\Film;
 use Illuminate\Http\Request;
 
@@ -14,6 +15,6 @@ class DirectorFilmController extends Controller
         if(is_null($films))
             return response()->json('Data not found', 404);
 
-        return response()->json($films);
+        return new FilmCollection($films);//response()->json($films);
     }
 }
